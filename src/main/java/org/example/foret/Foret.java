@@ -23,10 +23,6 @@ public class Foret {
         }
     }
 
-    public Cellule[][] getGrilleArbre() {
-        return grilleArbre;
-    }
-
     public int getHauteur() {
         return hauteur;
     }
@@ -36,22 +32,24 @@ public class Foret {
     }
 
     public boolean estDedans(Position p) {
-        return p.x() >= 0 && p.x() <= hauteur && p.y() >= 0 && p.y() <= largeur;
+        return p.x() >= 0 && p.x() <= hauteur - 1 && p.y() >= 0 && p.y() <= largeur - 1;
     }
 
     public Cellule getCelluleEtat(Position p) {
-        if (estDedans(p)) {
-            return grilleArbre[p.x()][p.y()];
+        if (!estDedans(p)) {
+            throw new IllegalArgumentException("Les dimensions doivent être strictement positives");
         }
-        throw new IllegalArgumentException("Les dimensions doivent être strictement positives");
+
+        return grilleArbre[p.x()][p.y()];
     }
 
 
     public void setCellule(Position p, Cellule cellule) {
-        if (estDedans(p)) {
-            grilleArbre[p.x()][p.y()] = cellule;
+        if (!estDedans(p)) {
+            throw new IllegalArgumentException("Les dimensions doivent être strictement positives");
         }
-        throw new IllegalArgumentException("Les dimensions doivent être strictement positives");
+
+        grilleArbre[p.x()][p.y()] = cellule;
     }
 
     public List<Position> getVoisins(Position p) {
